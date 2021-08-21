@@ -1,5 +1,7 @@
 package com.q.lambda;
 
+import java.sql.SQLException;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -19,7 +21,7 @@ public class TestLambda implements RequestHandler<APIGatewayProxyRequestEvent, A
     public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent request, final Context context) {
         try {
             return service.process(request.getBody());
-        } catch (JsonProcessingException e) {            
+        } catch (JsonProcessingException | SQLException e) {            
             e.printStackTrace();
         }
         return new APIGatewayProxyResponseEvent().withStatusCode(500);
