@@ -36,8 +36,8 @@
             <artifactId>quarkus-amazon-lambda</artifactId>
         </dependency>
 		<dependency>
-			<groupId>io.quarkus</groupId>
-			<artifactId>quarkus-agroal</artifactId>
+		    <groupId>io.quarkus</groupId>
+		    <artifactId>quarkus-spring-data-jpa</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>io.quarkus</groupId>
@@ -53,6 +53,11 @@
             <artifactId>quarkus-junit5</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+		    <groupId>io.quarkus</groupId>
+		    <artifactId>quarkus-panache-mock</artifactId>
+		    <scope>test</scope>
+		</dependency>
     </dependencies>
     <build>
         <plugins>

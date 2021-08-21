@@ -1,12 +1,11 @@
 package com.q.lambda;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.Optional;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 import org.jboss.logging.Logger;
 
@@ -15,9 +14,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.agroal.api.AgroalDataSource;
-
 @ApplicationScoped
+@Transactional
 public class ProcessingService {
 
     @Inject
@@ -26,22 +24,22 @@ public class ProcessingService {
     @Inject
     Logger log;
     
-    @Inject
-    AgroalDataSource dataSource;
+    
+    private final PersonRepository personRepository;
+    
+    public ProcessingService(PersonRepository personRepository) {
+        this.personRepository = personRepository;
+    }
+    
     
     public static final String CAN_ONLY_GREET_NICKNAMES = "Can only greet nicknames";
 
     public APIGatewayProxyResponseEvent process(String inputBody) throws JsonMappingException, JsonProcessingException, SQLException {
         log.info("Input Body: " + inputBody);
         
-        Connection conn = dataSource.getConnection();
-        Statement stmt = conn.createStatement();
-        ResultSet rs=stmt.executeQuery("select * from person");
-        while(rs.next()){
-            System.out.println(rs.getInt(1)+"  "+rs.getString(2));
-        }
-        stmt.close();
-        conn.close();
+        Optional<Person> persons = personRepository.findById(1);
+        
+        System.out.println(persons.get().toString());
         
         InputObject input = mapper.readValue(inputBody, InputObject.class);
         if (input.getName().equals("Stuart")) {
