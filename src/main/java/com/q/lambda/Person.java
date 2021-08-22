@@ -3,7 +3,10 @@ package com.q.lambda;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
+
 @Entity
+@RegisterForReflection
 public class Person {
 
     @Id
